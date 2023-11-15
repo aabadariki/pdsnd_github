@@ -107,16 +107,20 @@ def time_stats(df):
 
 
     # display the most common day of week
-    day = df['day_of_week'].mode()[0]
-    print(f'The most common day of week is: {day}')
+    most_common_day = df['day_of_week'].mode()[0]
+    print(f'The most common day of the week is: {most_common_day}')
+
 
     # display the most common start hour
     df['hour'] = df['Start Time'].dt.hour
-    popular_hour = df['hour'].mode()[0]
-    print(f'The most common start hour is: {popular_hour}')
+    most_common_start_hour = df['hour'].mode()[0]
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+    print(f'The most common start hour is: {most_common_start_hour}')
+
+    elapsed_time = time.time() - start_time
+    print(f"\nThis took {elapsed_time:.2f} seconds.")
+    print('-' * 40)
+
 
 
 def station_stats(df):
