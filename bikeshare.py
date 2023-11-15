@@ -123,10 +123,14 @@ def station_stats(df):
     start_time = time.time()
 
     # display most commonly used start station
-    popular_start_station = df['Start Station'].mode()[0]
-    print(f'The most popular start station is: {popular_start_station}')
+    start_station_counts = df['Start Station'].value_counts()
+    most_popular_start_station = start_station_counts.idxmax()
+
+    print(f'The most popular start station is: {most_popular_start_station}')
+
 
     # display most commonly used end station
+    
     popular_end_station = df['End Station'].mode()[0]
     print(f'The most popular end station is: {popular_end_station}')
 
@@ -182,13 +186,17 @@ def user_stats(df):
 
 
     # Display earliest, most recent, and most common year of birth
-    if 'Birth Year' in(df.columns):
-        year = df['Birth Year'].fillna(0).astype('int64')
-        print(f'Earliest birth year is: {year.min()}\nmost recent is: {year.max()}\nand most comon birth year is: {year.mode()[0]}')
+    if 'Birth Year' in df.columns:
+     birth_years = df['Birth Year'].fillna(0).astype('int64')
+    earliest_year = birth_years.min()
+    most_recent_year = birth_years.max()
+    most_common_year = birth_years.mode()[0]
 
+    print(f'Earliest birth year is: {earliest_year}\nMost recent is: {most_recent_year}\nMost common birth year is: {most_common_year}')
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+print("\nThis took {:.2f} seconds.".format(time.time() - start_time))
+print('-' * 40)
+
 
 def display_raw_data(df):
     """Ask the user if he wants to display the raw data and print 5 rows at time"""
