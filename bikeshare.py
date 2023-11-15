@@ -99,21 +99,28 @@ def time_stats(df):
     start_time = time.time()
 
     # display the most common month
-    months = ['january', 'february', 'march', 'april', 'may', 'june']
-    month = df['month'].mode()[0]
-    print(f'The most common month is: {months[month-1]}')
+    months = ['January', 'February', 'March', 'April', 'May', 'June']
+    most_common_month_index = df['month'].mode()[0] - 1
+    most_common_month = months[most_common_month_index]
+
+    print(f'The most common month is: {most_common_month}')
+
 
     # display the most common day of week
-    day = df['day_of_week'].mode()[0]
-    print(f'The most common day of week is: {day}')
+    most_common_day = df['day_of_week'].mode()[0]
+    print(f'The most common day of the week is: {most_common_day}')
+
 
     # display the most common start hour
     df['hour'] = df['Start Time'].dt.hour
-    popular_hour = df['hour'].mode()[0]
-    print(f'The most common start hour is: {popular_hour}')
+    most_common_start_hour = df['hour'].mode()[0]
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+    print(f'The most common start hour is: {most_common_start_hour}')
+
+    elapsed_time = time.time() - start_time
+    print(f"\nThis took {elapsed_time:.2f} seconds.")
+    print('-' * 40)
+
 
 
 def station_stats(df):
@@ -123,12 +130,19 @@ def station_stats(df):
     start_time = time.time()
 
     # display most commonly used start station
-    popular_start_station = df['Start Station'].mode()[0]
-    print(f'The most popular start station is: {popular_start_station}')
+    start_station_counts = df['Start Station'].value_counts()
+    most_popular_start_station = start_station_counts.idxmax()
+
+    print(f'The most popular start station is: {most_popular_start_station}')
+
 
     # display most commonly used end station
-    popular_end_station = df['End Station'].mode()[0]
-    print(f'The most popular end station is: {popular_end_station}')
+    
+    end_station_counts = df['End Station'].value_counts()
+    most_popular_end_station = end_station_counts.idxmax()
+
+    print(f'The most popular end station is: {most_popular_end_station}')
+
 
     # display most frequent combination of start station and end station trip
     popular_trip = df['Start Station'] + ' to ' + df['End Station']
@@ -182,13 +196,17 @@ def user_stats(df):
 
 
     # Display earliest, most recent, and most common year of birth
-    if 'Birth Year' in(df.columns):
-        year = df['Birth Year'].fillna(0).astype('int64')
-        print(f'Earliest birth year is: {year.min()}\nmost recent is: {year.max()}\nand most comon birth year is: {year.mode()[0]}')
+    if 'Birth Year' in df.columns:
+     birth_years = df['Birth Year'].fillna(0).astype('int64')
+    earliest_year = birth_years.min()
+    most_recent_year = birth_years.max()
+    most_common_year = birth_years.mode()[0]
 
+    print(f'Earliest birth year is: {earliest_year}\nMost recent is: {most_recent_year}\nMost common birth year is: {most_common_year}')
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+print("\nThis took {:.2f} seconds.".format(time.time() - start_time))
+print('-' * 40)
+
 
 def display_raw_data(df):
     """Ask the user if he wants to display the raw data and print 5 rows at time"""
