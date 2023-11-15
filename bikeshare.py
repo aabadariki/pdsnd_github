@@ -99,9 +99,12 @@ def time_stats(df):
     start_time = time.time()
 
     # display the most common month
-    months = ['january', 'february', 'march', 'april', 'may', 'june']
-    month = df['month'].mode()[0]
-    print(f'The most common month is: {months[month-1]}')
+    months = ['January', 'February', 'March', 'April', 'May', 'June']
+    most_common_month_index = df['month'].mode()[0] - 1
+    most_common_month = months[most_common_month_index]
+
+    print(f'The most common month is: {most_common_month}')
+
 
     # display the most common day of week
     day = df['day_of_week'].mode()[0]
@@ -131,8 +134,11 @@ def station_stats(df):
 
     # display most commonly used end station
     
-    popular_end_station = df['End Station'].mode()[0]
-    print(f'The most popular end station is: {popular_end_station}')
+    end_station_counts = df['End Station'].value_counts()
+    most_popular_end_station = end_station_counts.idxmax()
+
+    print(f'The most popular end station is: {most_popular_end_station}')
+
 
     # display most frequent combination of start station and end station trip
     popular_trip = df['Start Station'] + ' to ' + df['End Station']
